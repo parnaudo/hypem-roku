@@ -1,0 +1,16 @@
+{
+	"screen": "Poster",
+	"listStyle": "arced-square",
+	"listNames": [
+		"All Tracks",
+		"Freshest",
+		"No Remixes",
+		"remix"
+	],
+	"listModes": [
+		"all",
+		"fresh",
+		"noremix",
+		"remix"
+	]
+}
