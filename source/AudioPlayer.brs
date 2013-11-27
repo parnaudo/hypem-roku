@@ -6,36 +6,45 @@ function AudioPlayer() as Object
 
 	getPlayer = function() as Object
 		if m._player <> invalid return m._player
-		player = createObject("roAudioPlayer")
-		port = createObject("roMessagePort")
-		player.setMessagePort(port)
-		player.setLoop(0)
-		m._player = player
-		m.setPlayState(0)
-		return player
+		m._player = createObject("roAudioPlayer")
+		m.setPlayState(m.STATE_STOP)
+		m._player.setLoop(0)
+		return m._player
 	end function
 
 	setPlayState = function(newstate as Integer)
 		if newstate <> m.playState then
-			if newstate = 0 then			 ' STOPPED
+			if newstate = m.STATE_STOP then			 ' STOPPED
 				m.getPlayer().stop()
-				m.playState = 0
-			else if newstate = 1 then		' PAUSED
+				m.playState = m.STATE_STOP
+			else if newstate = m.STATE_PAUSE then		' PAUSED
 				m.getPlayer().pause()
-				m.playState = 1
-			else if newstate = 2 then		' PLAYING
-				if m.playstate = 0
+				m.playState = m.STATE_PAUSE
+			else if newstate = m.STATE_PLAY then		' PLAYING
+				if m.playstate = m.STATE_STOP
 					m.getPlayer().play()	' STOP->START
 				else
 					m.getPlayer().resume()	' PAUSE->START
 				endif
-				m.playState = 2
+				m.playState = m.STATE_PLAY
 			endif
 		end if
 	end function
 
+	setMessagePort = function(port as Object)
+		m.getPlayer().setMessagePort(port)
+	end function
+
 	addContent = function(content as Object)
 		m.getPlayer().addContent(content)
+	end function
+
+	selectTrack = function(index as Integer)
+		m.getPlayer().setNext(index)
+	end function
+
+	seekTrack = function(offset as Integer)
+		m.getPlayer().seek(offset*1000)
 	end function
 
 	setContentList = function(contentList as Object)
@@ -46,22 +55,18 @@ function AudioPlayer() as Object
 		m.getPlayer().clearContent()
 	end function
 
-	getMessage = function(timeout as Integer, escape as String) As Object
-		while true
-	    	msg = wait(timeout, m.getPlayer().getMessagePort())
-		    if type(msg) = "roAudioPlayerEvent" return msg
-		    if type(msg) = escape return msg
-		    if type(msg) = "Invalid" return msg
-		end while
-	end function
-
 	m._AudioPlayer = {
+		STATE_STOP: 0,
+		STATE_PAUSE: 1,
+		STATE_PLAY: 2,
 		playState: 0,
 		getPlayer: getPlayer,
-		getMessage: getMessage,
 		addContent: addContent,
+		selectTrack: selectTrack,
+		seekTrack: seekTrack,
 		setContentList: setContentList,
 		clearContent: clearContent,
+		setMessagePort: setMessagePort,
 		setPlayState: setPlayState,
 	}
 

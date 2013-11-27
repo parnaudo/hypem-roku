@@ -42,7 +42,8 @@ function ApiClient() as Object
 				if msg.getInt() < 1 then
 					return {
 						status: "error",
-						error_msg: "Unexpected Error"
+						error_msg: "Unexpected Error",
+						data: []
 					}
 				end if
 				if msg.getInt() = 1 then
@@ -50,16 +51,23 @@ function ApiClient() as Object
 					if code < 0 or code > 399 then
 						return {
 							status: "error",
-							error_msg: msg.getFailureReason()
+							error_msg: msg.getFailureReason(),
+							data: []
 						}
 					else
-						return parseJson(msg.getString())
+						data = parseJson(msg.getString())
+						if type(data) <> "roArray" return data
+						return {
+							status: "ok",
+							data: data
+						}
 					end if
 				end if
 			end while
 			return {
 				status: "error",
-				error_msg: "Unable to connect to server"
+				error_msg: "Unable to connect to server",
+				data: []
 			}
 		end function
 

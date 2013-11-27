@@ -11,8 +11,15 @@ sub createLatestScreen()
 	while true
         msg = wait(0, screen.getMessagePort())
         index = msg.getIndex()
-        if msg.isListItemSelected() then
-        	createTrackScreen(index, tracks)
+        if msg.isListItemFocused() then
+            limit = tracks.getContentCount()
+            if index >= (limit-3) then
+                screen.setContentList(tracks.getContentListUntil(limit))
+            end if
+        elseif msg.isListItemSelected() then
+        	index = TrackScreen(index, tracks).show()
+            screen.setFocusedListItem(index)
+            screen.setContentList(tracks.getContentList())
         elseif msg.isListSelected() then
         	mode = config.listModes[msg.getIndex()]
         	tracks.setMode(mode)
