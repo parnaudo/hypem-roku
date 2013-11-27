@@ -1,33 +1,22 @@
 sub createLatestScreen()
 
-	client = ApiClient()
+	tracks = LatestTracks()
 	config = readJsonFile("config/latest.screen")
 	screen = createScreen(config.screen)
 
-	getTracks = function(screen, client, params as Object) as Object
-		tracks = client.getTracks(params)
-		if type(tracks) = "roAssociativeArray" then
-			screen.showMessage(tracks.error_msg)
-			return invalid
-		else
-			tracks = arrayMap(tracks, Track)
-			screen.setContentList(tracks)
-			return tracks
-		end if
-	end function
-
 	screen.setListStyle(config.listStyle)
-	tracks = getTracks(screen, client, invalid)
+	screen.setContentList(tracks.getContentList())
 	screen.show()
 
-	while tracks <> invalid
+	while true
         msg = wait(0, screen.getMessagePort())
+        index = msg.getIndex()
         if msg.isListItemSelected() then
-        	track = tracks[msg.getIndex()]
-        	createTrackScreen(track)
+        	createTrackScreen(index, tracks)
         elseif msg.isListSelected() then
         	mode = config.listModes[msg.getIndex()]
-        	tracks = getTracks(screen, client, { mode: mode })
+        	tracks.setMode(mode)
+        	screen.setContentList(tracks.getContentList())
         elseif msg.isScreenClosed() then
         	continue = false
         end if

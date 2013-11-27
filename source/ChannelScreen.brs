@@ -9,7 +9,9 @@ sub createChannelScreen()
         if msg.isScreenClosed() then : return
         elseif msg.isListItemSelected() then
         	content = config.contentList[msg.getIndex()]
-            eval("create" + content.screen + "()")
+            if content.screen = "LatestScreen" then
+                createLatestScreen()
+            end if
         end if
     end while
 end sub

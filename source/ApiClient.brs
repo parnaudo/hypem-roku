@@ -1,10 +1,10 @@
 function ApiClient() as Object
 
-	if m._instance <> invalid then
-		return m._instance
+	if m._ApiClient <> invalid then
+		return m._Api_Client
 	end if
 
-	m._instance = {
+	m._ApiClient = {
 
 		getConfig: function()
 			if m._config = invalid then
@@ -63,13 +63,13 @@ function ApiClient() as Object
 			}
 		end function
 
-		getTracks: function(params as Object)
+		getTracks: function(params as Object) as Object
 			params = mergeObjects({ page: 1, count: 40, mode: "all" }, params)
 			return m.getJson("/tracks", params)
 		end function
 
 	}
 
-	return m._instance
+	return m._ApiClient
 
 end function

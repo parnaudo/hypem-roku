@@ -1,4 +1,4 @@
-function Track(json as Object) as Object
+function TrackContent(json as Object) as Object
 	releaseDate = createObject("roDateTime")
 	releaseDate.fromSeconds(json.dateposted)
 	return {
@@ -10,7 +10,7 @@ function Track(json as Object) as Object
 		hdPosterUrl: json.thumb_url_large,
 		sdBackgroundImageUrl: json.thumb_url_large,
 		hdBackgroundImageUrl: json.thumb_url_large,
-		streamUrls: [json.stream_pub],
+		url: json.stream_pub,
 		streamFormat: "mp3",
 		length: json.time,
 		starRating: json.loved_count,
@@ -18,4 +18,12 @@ function Track(json as Object) as Object
 		artist: json.artist,
 		album: json.sitename
 	}
+end function
+
+function TrackContentList(json as Object)
+	if type(json) = "roAssociativeArray" then
+		return json.error_msg
+	else
+		return arrayMap(json, TrackContent)
+	end if
 end function
