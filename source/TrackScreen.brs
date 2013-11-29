@@ -46,7 +46,8 @@ function TrackScreen(index as Integer, tracks as Object) as Object
                 if not m.onScreenEvent(msg) return m.index
             else if type(msg) = "roAudioPlayerEvent" then
                 m.onAudioEvent(msg)
-            else if m.audio.playState = m.audio.STATE_PLAY then
+            end if
+            if m.audio.playState = m.audio.STATE_PLAY then
                 m.updateProgress()
             end if
         end while

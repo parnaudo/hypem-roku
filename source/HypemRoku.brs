@@ -1,3 +1,3 @@
 sub main()
-	createChannelScreen()
+	NavigationScreen().show()
 end sub 

@@ -1,14 +1,14 @@
 function ApiClient() as Object
 
 	if m._ApiClient <> invalid then
-		return m._Api_Client
+		return m._ApiClient
 	end if
 
 	m._ApiClient = {
 
 		getConfig: function()
 			if m._config = invalid then
-				m._config = ReadJsonFile("config/api.client")
+				m._config = ReadJsonFile("config/apiclient")
 			end if
 			return m._config
 		end function
@@ -69,11 +69,6 @@ function ApiClient() as Object
 				error_msg: "Unable to connect to server",
 				data: []
 			}
-		end function
-
-		getTracks: function(params as Object) as Object
-			params = mergeObjects({ page: 1, count: 40, mode: "all" }, params)
-			return m.getJson("/tracks", params)
 		end function
 
 	}
