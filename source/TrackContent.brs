@@ -19,11 +19,3 @@ function TrackContent(json as Object) as Object
 		album: json.sitename
 	}
 end function
-
-function TrackContentList(json as Object)
-	if type(json) = "roAssociativeArray" then
-		return json.error_msg
-	else
-		return arrayMap(json, TrackContent)
-	end if
-end function

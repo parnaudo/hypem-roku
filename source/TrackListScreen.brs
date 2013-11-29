@@ -1,7 +1,7 @@
 function TrackListScreen(source as String, params as Object) as Object
 
     instance = {}
-    instance._tracks = TrackList(source, params)
+    instance._tracks = TrackListAdapter(source, params)
     instance._screen = createScreen("Poster")
     instance._screen.setListStyle("arced-square")
     instance._screen.setListDisplayMode("zoom-to-fill")
@@ -28,7 +28,7 @@ function TrackListScreen(source as String, params as Object) as Object
     end function
 
     instance.onListItemFocused = function(msg as Object) as Boolean
-        limit = tracks.getContentCount()
+        limit = m._tracks.getContentCount()
         if msg.getIndex() >= (limit-3) then ' infinite scroll
             m.getContentListUntil(limit)
         end if
@@ -44,7 +44,7 @@ function TrackListScreen(source as String, params as Object) as Object
     end function
 
     instance.onListItemSelected = function(msg as Object) as Boolean
-        index = TrackScreen(index, tracks).show()
+        index = TrackScreen(msg.getIndex(), m._tracks).show()
         m.updateContentListUntil(index)
         m._screen.setFocusedListItem(index)
         return true
