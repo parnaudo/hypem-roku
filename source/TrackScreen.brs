@@ -9,6 +9,12 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     instance._screen  = createScreen("Springboard")
     instance._port    = instance._screen.getMessagePort()
 
+    instance._screen.setProgressIndicatorEnabled(true)
+    instance._screen.allowNavLeft(index > 0)
+    instance._screen.allowNavRewind(true)
+    instance._screen.allowNavFastForward(true)
+    instance._audio.setMessagePort(instance._port)
+
     instance.syncContent = function()
         content = m._tracks.getContent(m._index)
         if content = invalid return invalid
@@ -39,6 +45,8 @@ function TrackScreen(index as Integer, tracks as Object) as Object
 
     instance.show = function()
         m._screen.show()
+        m.syncTracks()
+        m.syncContent()
         m.play()
         while true
             msg = wait(1000, m._port)
@@ -166,15 +174,6 @@ function TrackScreen(index as Integer, tracks as Object) as Object
             m.next()
         end if
     end function
-
-    instance._screen.setProgressIndicatorEnabled(true)
-    instance._screen.allowNavLeft(index > 0)
-    instance._screen.allowNavRewind(true)
-    instance._screen.allowNavFastForward(true)
-
-    instance._audio.setMessagePort(instance._port)
-    instance.syncTracks()
-    instance.syncContent()
 
     return instance
 

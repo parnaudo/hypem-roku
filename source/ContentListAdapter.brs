@@ -14,7 +14,7 @@ function ContentListAdapter(class as Function, source as String, params as Objec
 	instance.getContentListUntil = function(containsIndex) as Object
 		while m.getContentCount() <= containsIndex
 			response = m._client.getJson(m._source, m._params)
-			if response.status = "error" then 
+			if response.status = "error" then
 				ErrorDialog("Error", response.error_msg).show()
 			end if
 			if m._params.count <> invalid and response.data.count() < m._params.count then 

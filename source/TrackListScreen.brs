@@ -5,11 +5,11 @@ function TrackListScreen(source as String, params as Object) as Object
     instance._screen = createScreen("Poster")
     instance._screen.setListStyle("arced-square")
     instance._screen.setListDisplayMode("zoom-to-fill")
-	instance._screen.setContentList(instance._tracks.getContentList())
 	
     instance.show = function()
-        continue = true
         m._screen.show()
+        m.updateContentList()
+        continue = true
         while continue
             msg = wait(0, m._screen.getMessagePort())
             continue = m.onMessage(msg)

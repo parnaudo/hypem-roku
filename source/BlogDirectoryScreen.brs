@@ -5,10 +5,14 @@ function BlogDirectoryScreen() as Object
 	instance._screen = createScreen("Poster")
 	instance._screen.setListStyle("arced-square")
     instance._screen.setListDisplayMode("zoom-to-fill")
-	instance._screen.setContentList(instance._blogs.getContentList())
+	
+	instance.updateContentList = function()
+		m._screen.setContentList(m._blogs.getContentList())
+	end function
 
 	instance.show = function()
 		m._screen.show()
+		m.updateContentList()
 		while true
 			msg = wait(0, m._screen.getMessagePort())
 	        if msg.isListItemSelected() then
