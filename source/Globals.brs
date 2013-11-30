@@ -21,7 +21,7 @@ function escapeQuery(transport as Object, params as Object) as String
     	querystring = querystring + "="
     	querystring = querystring + transport.escape(value)
 	end for
-	return mid(querystring, 1)
+	return mid(querystring.trim(), 2)
 end function
 
 function mergeObjects(into as Object, from as Object) as Object

@@ -174,7 +174,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
             m.next()
         end if
     end function
-
+    
     return instance
 
 end function
