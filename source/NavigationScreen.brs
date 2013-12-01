@@ -14,7 +14,7 @@ sub NavigationScreen() as Object
                 title: "Now Playing",
                 screen: invalid
             })
-        end if
+        endif
         
         if (m._session.isLoggedIn()) then
             m._content.append([{
@@ -27,7 +27,7 @@ sub NavigationScreen() as Object
                 title: "Friends",
                 screen: MyFriendsScreen
             }])
-        end if
+        endif
 
         m._content.append([{
             title: "Latest",
@@ -53,7 +53,7 @@ sub NavigationScreen() as Object
                 title: "Log In"
                 screen: LoginScreen
             })
-        end if
+        endif
 
         m._screen.setContent(m._content)
 
@@ -69,7 +69,7 @@ sub NavigationScreen() as Object
                 content = m._content[msg.getIndex()]
                 content.screen().show()
                 m.updateContent()
-            end if
+            endif
         end while
     end function
 

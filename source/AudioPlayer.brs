@@ -28,7 +28,7 @@ function AudioPlayer() as Object
 				endif
 				m.playState = m.STATE_PLAY
 			endif
-		end if
+		endif
 	end function
 
 	setMessagePort = function(port as Object)

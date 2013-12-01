@@ -17,7 +17,7 @@ function ErrorDialog(title as String, text as String) as Object
 			index = msg.GetIndex()
 			if msg.isScreenClosed() or msg.isButtonPressed()
 	        	return 0
-	        end if
+	        endif
 		end while
 	end function
 

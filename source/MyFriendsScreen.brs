@@ -2,10 +2,10 @@ function MyFriendsScreen() as Object
 	
 	instance = {}
 	instance._friends = UserFriendListAdapter(UserSession().getUserName())
-	instance._screen = createScreen("Poster")
+	instance._screen = createScreen("List")
 
 	instance.updateContentList = function()
-		m._screen.setContentList(m._friends.getContentList())
+		m._screen.setContent(m._friends.getContentList())
 	end function
 
 	instance.show = function()
@@ -17,7 +17,7 @@ function MyFriendsScreen() as Object
 	            m.onListItemSelected(msg)
 	        elseif msg.isScreenClosed() then
 	            return false
-	        end if
+	        endif
 		end while
 	end function
 

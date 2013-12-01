@@ -14,7 +14,7 @@ sub LoginScreen() as Object
             ErrorDialog("Unable to Log In", response.error_msg).show()
         else
             UserSession().authorize(response).save()
-        end if
+        endif
     end function
 
     instance.show = function()
@@ -23,8 +23,8 @@ sub LoginScreen() as Object
             password = InputScreen("Please enter your Hype Machine password", true).show()
             if password <> invalid then
                 m.login(username, password)
-            end if
-        end if
+            endif
+        endif
     end function
 
     return instance

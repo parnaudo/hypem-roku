@@ -23,7 +23,7 @@ function TrackListScreen(source as String, params as Object) as Object
             return m.onListItemSelected(msg)    
         elseif msg.isScreenClosed() then
             return false
-        end if
+        endif
         return true
     end function
 
@@ -31,7 +31,7 @@ function TrackListScreen(source as String, params as Object) as Object
         limit = m._tracks.getContentCount()
         if msg.getIndex() >= (limit-3) then ' infinite scroll
             m.updateContentListUntil(limit)
-        end if
+        endif
         return true
     end function
 

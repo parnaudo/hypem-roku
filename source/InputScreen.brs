@@ -22,8 +22,8 @@ sub InputScreen(prompt as String, secure=false as Boolean) as Object
                     ErrorDialog("No Value", "Please enter a value before moving on").show()
                 else if index = 2 then
                     return invalid
-                end if
-            end if
+                endif
+            endif
         end while
     end function
 

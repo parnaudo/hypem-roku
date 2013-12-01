@@ -15,7 +15,7 @@ function escapeQuery(transport as Object, params as Object) as String
 		value = params[key]
 		if type(value) = "roInteger" then
 			value = value.tostr()
-		end if
+		endif
     	querystring = querystring + "&"
     	querystring = querystring + transport.escape(key)
     	querystring = querystring + "="

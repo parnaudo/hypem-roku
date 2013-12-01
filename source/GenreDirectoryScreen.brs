@@ -17,7 +17,7 @@ function GenreDirectoryScreen() as Object
 	            m.onListItemSelected(msg)
 	        elseif msg.isScreenClosed() then
 	            return false
-	        end if
+	        endif
 		end while
 	end function
 

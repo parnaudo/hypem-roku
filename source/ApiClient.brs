@@ -2,7 +2,7 @@ function ApiClient() as Object
 
 	if m._ApiClient <> invalid then
 		return m._ApiClient
-	end if
+	endif
 
 	m._ApiClient = {
 
@@ -11,7 +11,7 @@ function ApiClient() as Object
 		getConfig: function()
 			if m._config = invalid then
 				m._config = ReadJsonFile("config/iphone")
-			end if
+			endif
 			return m._config
 		end function
 
@@ -23,7 +23,7 @@ function ApiClient() as Object
 				m._transport.retainBodyOnError(true)
 				m._transport.setCertificatesFile("common:/certs/ca-bundle.crt")
 				m._transport.initClientCertificates()
-			end if
+			endif
 			return m._transport
 		end function
 
@@ -32,7 +32,7 @@ function ApiClient() as Object
 			auth = { key: config.key }
 			if m._session.isLoggedIn() then
 				auth.hm_token = m._session.getAccessToken()
-			end if
+			endif
 			return mergeObjects(auth, params)
 		end function
 
@@ -44,7 +44,7 @@ function ApiClient() as Object
 				return config.host + path + "?" + query
 			else 
 				return config.host + path
-			end if
+			endif
 		end function
 
 		getJson: function(path as String, params as Object) as Object
@@ -58,7 +58,7 @@ function ApiClient() as Object
 				msg = wait(0, transport.getMessagePort())
 				if msg.getInt() = 1 then
 					return m.onTransferComplete(msg)
-				end if
+				endif
 			end while
 			return m.onTransferFailed()
 		end function
@@ -75,7 +75,7 @@ function ApiClient() as Object
 				msg = wait(0, transport.getMessagePort())
 				if msg.getInt() = 1 then
 					return m.onTransferComplete(msg)
-				end if
+				endif
 			end while
 			return m.onTransferFailed()
 		end function
@@ -97,7 +97,7 @@ function ApiClient() as Object
 					error_msg: msg.getFailureReason(),
 					data: []
 				}
-			end if
+			endif
 			
 			return {
 				status: "ok",

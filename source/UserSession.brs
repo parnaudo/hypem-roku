@@ -15,10 +15,10 @@ function UserSession() as Object
 		section = m.getRegistrySection()
 		if section.exists("username") then
 			m._username = section.read("username")
-		end if
+		endif
 		if section.exists("access_token") then
 			m._access_token = section.read("access_token")
-		end if
+		endif
 	end function
 
 	instance.save = function()
