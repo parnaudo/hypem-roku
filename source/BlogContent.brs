@@ -3,13 +3,11 @@ function BlogContent(json as Object) as Object
 		source: "/blogs/" + json.siteid.tostr() + "/tracks",
 		title: json.sitename,
 		description: json.description,
-		shortDescriptionLine1: json.sitename,
-		shortDescriptionLine2: json.region_name,
-		contentType: "series",
+		shortDescriptionLine1: json.total_tracks.tostr() + " Tracks ",
+		shortDescriptionLine2: json.followers.tostr() + " Followers",
+		contentType: "audio",
 		sdPosterUrl: json.blog_image,
 		hdPosterUrl: json.blog_image,
-		sdBackgroundImageUrl: json.blog_image,
-		hdBackgroundImageUrl: json.blog_image,
 		starRating: json.followers
 	}
 end function

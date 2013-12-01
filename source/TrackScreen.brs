@@ -7,6 +7,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     instance._screen  = createScreen("Springboard")
     instance._port    = instance._screen.getMessagePort()
 
+    instance._screen.setDisplayMode("zoom-to-fill")
     instance._screen.setProgressIndicatorEnabled(true)
     instance._screen.allowNavLeft(index > 0)
     instance._screen.allowNavRewind(true)

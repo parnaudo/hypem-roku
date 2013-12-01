@@ -6,11 +6,9 @@ function UserContent(json as Object) as Object
 		description: json.profile_url,
 		shortDescriptionLine1: json.fullname,
 		shortDescriptionLine2: json.location,
-		contentType: "series",
+		contentType: "audio",
 		sdPosterUrl: json.userpic,
 		hdPosterUrl: json.userpic,
-		sdBackgroundImageUrl: json.userpic,
-		hdBackgroundImageUrl: json.userpic,
 		starRating: json.followers
 	}
 end function
