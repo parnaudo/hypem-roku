@@ -17,11 +17,11 @@ function ContentListAdapter(class as Function, source as String, params as Objec
 			if response.status = "error" then
 				ErrorDialog("Error", response.error_msg).show()
 			end if
+			m._contentList.append(arrayMap(response.data, m._class))
 			if m._params.count <> invalid and response.data.count() < m._params.count then 
 				return m._contentList
 			end if
 			m._params.page = m._params.page + 1
-			m._contentList.append(arrayMap(response.data, m._class))
 		end while
 		return m._contentList
 	end function

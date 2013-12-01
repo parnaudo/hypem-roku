@@ -5,56 +5,58 @@ sub NavigationScreen() as Object
     instance._audio   = AudioPlayer()
     instance._screen  = createScreen("List")
 
-    instance.getCurrentContent = function()
+    instance.updateContent = function()
+        
+        m._content = []
+
         if (m._audio.playState = m.STATE_PLAY) then
-            return [{
+            m._content.push({
                 title: "Now Playing",
                 screen: invalid
-            }]
+            })
         end if
-        return []
-    end function
-
-    instance.getBasicContent = function()
-        return [
-            {
-                title: "Latest",
-                screen: LatestTracksScreen
-            },
-            {
-                title: "Popular",
-                screen: PopularTracksScreen
-            },
-            {
-                title: "Blog Directory",
-                screen: BlogDirectoryScreen
-            },
-            {
-                title: "Genres",
-                screen: GenreDirectoryScreen
-            }
-        ]
-    end function
-
-    instance.getSessionContent = function()
+        
         if (m._session.isLoggedIn()) then
-            return [{
+            m._content.append([{
+                title: "My Feed",
+                screen: MyFeedScreen
+            },{
+                title: "Favorites",
+                screen: MyFavoritesScreen
+            },{
+                title: "Friends",
+                screen: invalid
+            }])
+        end if
+
+        m._content.append([{
+            title: "Latest",
+            screen: LatestTracksScreen
+        },{
+            title: "Popular",
+            screen: PopularTracksScreen
+        },{
+            title: "Blog Directory",
+            screen: BlogDirectoryScreen
+        },{
+            title: "Genres",
+            screen: GenreDirectoryScreen
+        }])
+
+        if (m._session.isLoggedIn()) then
+            m._content.push({
                 title: "Log Out"
                 screen: LogoutScreen
-            }]
+            })
         else
-            return [{
+            m._content.push({
                 title: "Log In"
                 screen: LoginScreen
-            }]
+            })
         end if
-    end function
 
-    instance.updateContent = function()
-        m._content = m.getCurrentContent()
-        m._content.append(m.getBasicContent())
-        m._content.append(m.getSessionContent())
         m._screen.setContent(m._content)
+
     end function
 
     instance.show = function()

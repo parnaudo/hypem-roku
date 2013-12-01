@@ -30,7 +30,7 @@ function TrackListScreen(source as String, params as Object) as Object
     instance.onListItemFocused = function(msg as Object) as Boolean
         limit = m._tracks.getContentCount()
         if msg.getIndex() >= (limit-3) then ' infinite scroll
-            m.getContentListUntil(limit)
+            m.updateContentListUntil(limit)
         end if
         return true
     end function
