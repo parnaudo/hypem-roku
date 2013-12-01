@@ -1,3 +1,7 @@
+function getTime() as Integer
+	return createObject("roDateTime").asSeconds()
+end function
+
 function createScreen(name as String) as Object
 	port = createObject("roMessagePort") 
 	screen = createObject("ro" + name + "Screen") 

@@ -17,7 +17,7 @@ function ContentListAdapter(class as Function, source as String, params as Objec
 		return m._contentList.count()
 	end function
 
-	instance.getContentListUntil = function(containsIndex) as mergeObjects
+	instance.getContentListUntil = function(containsIndex) as Object
 		
 		' try to fetch results until we have enough to cover the index
 		while not m._reachedEnd and m.getContentCount() <= containsIndex

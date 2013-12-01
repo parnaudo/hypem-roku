@@ -1,10 +1,9 @@
 function ApiClient() as Object
 
-	if m._ApiClient <> invalid then
-		return m._ApiClient
-	endif
+	globals = getGlobalAA()
+	if globals._ApiClient <> invalid return globals._ApiClient
 
-	m._ApiClient = {
+	globals._ApiClient = {
 
 		_session: UserSession(),
 
@@ -108,6 +107,6 @@ function ApiClient() as Object
 
 	}
 
-	return m._ApiClient
+	return globals._ApiClient
 
 end function

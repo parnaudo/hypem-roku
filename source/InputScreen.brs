@@ -20,7 +20,7 @@ sub InputScreen(prompt as String, secure=false as Boolean) as Object
                     result = m._screen.getText()
                     if len(result) > 0 return result
                     ErrorDialog("No Value", "Please enter a value before moving on").show()
-                else if index = 2 then
+                elseif index = 2 then
                     return invalid
                 endif
             endif

@@ -1,6 +1,7 @@
 function UserSession() as Object
 
-	if m._UserSession <> invalid return m._UserSession
+	globals = getGlobalAA()
+	if globals._UserSession <> invalid return globals._UserSession
 
 	instance = {}
 	instance._username     = invalid
@@ -60,7 +61,7 @@ function UserSession() as Object
 		return m
 	end function
 
-	m._UserSession = instance
-	return m._UserSession
+	globals._UserSession = instance
+	return globals._UserSession
 
 end function

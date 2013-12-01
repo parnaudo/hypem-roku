@@ -9,10 +9,10 @@ sub NavigationScreen() as Object
         
         m._content = []
 
-        if (m._audio.playState = m.STATE_PLAY) then
+        if (m._audio.isPlaying()) then
             m._content.push({
                 title: "Now Playing",
-                screen: invalid
+                screen: NowPlayingScreen
             })
         endif
         

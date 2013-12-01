@@ -1,8 +1,6 @@
 function TrackScreen(index as Integer, tracks as Object) as Object
 
-    instance = {}
-    instance._elapsedTime = 0
-    instance._totalTime   = 0
+    instance          = {}
     instance._index   = index
     instance._tracks  = tracks
     instance._audio   = AudioPlayer()
@@ -18,14 +16,16 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     instance.syncContent = function()
         content = m._tracks.getContent(m._index)
         if content = invalid return invalid
-        counter = m._tracks.getContentCount()
         m._screen.setContent(content)
         m._totalTime = content.length
+        tracks = m._audio.getTracks()
+        if tracks = invalid or tracks.getContentList().peek().url <> m._tracks.getContentList().peek().url then
+            m._audio.setTracks(m._tracks)
+            m._audio.setTrackIndex(m._index)
+        elseif m._audio.getTrackIndex() <> m._index then
+            m._audio.setTrackIndex(m._index)
+        end if
         m.updateProgress()
-        if counter <> m._tracks.getContentCount() then
-            m.syncTracks()
-        endif
-        m._audio.selectTrack(m._index)
         return content
     end function
 
@@ -35,7 +35,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
         if (state = m._audio.STATE_PLAY) then
             m._screen.addButton(1, "Pause")
             m._screen.addButton(2, "Stop")
-        else if (state = m._audio.STATE_PAUSE) then
+        elseif (state = m._audio.STATE_PAUSE) then
             m._screen.addButton(1, "Resume")
             m._screen.addButton(2, "Stop")
         else
@@ -45,7 +45,6 @@ function TrackScreen(index as Integer, tracks as Object) as Object
 
     instance.show = function()
         m._screen.show()
-        m.syncTracks()
         m.syncContent()
         m.play()
         while true
@@ -53,9 +52,10 @@ function TrackScreen(index as Integer, tracks as Object) as Object
             class = type(msg)
             if class = "roSpringboardScreenEvent" then
                 if not m.onScreenEvent(msg) return m._index
-            else if class = "roAudioPlayerEvent" then
+            elseif class = "roAudioPlayerEvent" then
                 m.onAudioEvent(msg)
-            else if class = "Invalid" and m._audio.playState = m._audio.STATE_PLAY then
+            endif
+            if m._audio.isPlaying() then
                 m.updateProgress()
             endif
         end while
@@ -63,28 +63,18 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     end function
 
     instance.updateProgress = function()
-        m._elapsedTime = m._elapsedTime + 1
-        m._screen.setProgressIndicator(m._elapsedTime, m._totalTime)
-    end function
-
-    instance.syncTracks = function()
-        m._audio.setContentList(m._tracks.getContentList()) 
+        m._screen.setProgressIndicator(m._audio.getTimeElapsed(), m._audio.getTimeTotal())
     end function
 
     instance.onScreenEvent = function(msg as Object) as Boolean
         if msg.isScreenClosed() then
-            return m.onScreenClosed(msg)
+            return false
         elseif msg.isButtonPressed() then
             return m.onButtonPressed(msg)
         elseif msg.isRemoteKeyPressed() then    
             m.onRemoteKeyPressed(msg)
         endif
         return true
-    end function
-
-    instance.onScreenClosed = function(msg as Object) as Boolean
-        m.stop()
-        return false
     end function
 
     instance.play = function()
@@ -125,7 +115,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     end function
 
     instance.onButtonPressed = function(msg as Object) as Boolean
-        if msg.GetIndex() = 1 then
+        if msg.getIndex() = 1 then
             if m._audio.playState = m._audio.STATE_PLAY then
                 m.pause()
             else
@@ -152,21 +142,13 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     end function
 
     instance.rewind = function()
-        if m._elapsedTime > 10 then
-            m._elapsedTime = m._elapsedTime - 10
-        else
-            m._elapsedTime = 0
-        endif
-        m._audio.seekTrack(m._elapsedTime)
+        m._audio.seekTrack(-10)
+        m.updateProgress()
     end function
 
     instance.fastForward = function()
-        if m._elapsedTime < (m._totalTime-10) then
-            m._elapsedTime = m._elapsedTime + 10
-        else
-            m._elapsedTime = m._totalTime
-        endif
-        m._audio.seekTrack(m._elapsedTime)
+        m._audio.seekTrack(10)
+        m.updateProgress()
     end function
 
     instance.onAudioEvent = function(msg as Object)
@@ -174,7 +156,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
             m.next()
         endif
     end function
-    
+
     return instance
 
 end function
