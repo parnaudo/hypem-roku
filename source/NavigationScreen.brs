@@ -25,7 +25,7 @@ sub NavigationScreen() as Object
                 screen: MyFavoritesScreen
             },{
                 title: "Friends",
-                screen: invalid
+                screen: MyFriendsScreen
             }])
         end if
 

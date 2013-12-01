@@ -9,7 +9,7 @@ function BlogContent(json as Object) as Object
 		sdPosterUrl: json.blog_image,
 		hdPosterUrl: json.blog_image,
 		sdBackgroundImageUrl: json.blog_image,
-		hdBackgroundImageUrl: json.siteurl,
+		hdBackgroundImageUrl: json.blog_image,
 		starRating: json.followers
 	}
 end function

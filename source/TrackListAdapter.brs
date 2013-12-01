@@ -1,6 +1,6 @@
 function TrackListAdapter(source as String, params as Object) as Object
 
-	params   = mergeObjects({ count: 40 }, params)
+	params   = mergeObjects({ count: 40, page: 1 }, params)
 	instance = ContentListAdapter(TrackContent, source, params)
 	
 	instance.setMode = function(mode as String)
