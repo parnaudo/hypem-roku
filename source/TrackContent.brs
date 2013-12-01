@@ -15,6 +15,7 @@ function TrackContent(json as Object) as Object
 		starRating: json.loved_count,
 		releaseDate: releaseDate.asDateString("short-date"),
 		artist: json.artist,
+		actors: json.artist,
 		album: json.sitename
 	}
 end function
