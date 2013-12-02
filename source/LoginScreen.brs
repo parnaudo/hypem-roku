@@ -18,9 +18,9 @@ sub LoginScreen() as Object
     end function
 
     instance.show = function()
-        username = InputScreen("Please enter your Hype Machine username").show()
+        username = InputScreen("Log In", "Please enter your Hype Machine username").show()
         if username <> invalid then
-            password = InputScreen("Please enter your Hype Machine password", true).show()
+            password = InputScreen("Log In", "Please enter your Hype Machine password", true).show()
             if password <> invalid then
                 m.login(username, password)
             endif

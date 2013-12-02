@@ -2,10 +2,15 @@ function GenreDirectoryScreen() as Object
 	
 	instance = {}
 	instance._genres = GenreListAdapter()
-	instance._screen = createScreen("List")
+	instance._screen = createScreen("Poster")
+
+	instance._screen.setListStyle("arced-square")
+    instance._screen.setListDisplayMode("zoom-to-fill")
+	instance._screen.setBreadcrumbEnabled(true)
+	instance._screen.setBreadcrumbText("", "Genres")
 
 	instance.updateContentList = function()
-		m._screen.setContent(m._genres.getContentList())
+		m._screen.setContentList(m._genres.getContentList())
 	end function
 
 	instance.show = function()
@@ -23,7 +28,7 @@ function GenreDirectoryScreen() as Object
 
 	instance.onListItemSelected = function(msg as Object)
         genre = m._genres.getContent(msg.getIndex())
-        GenreTracksScreen(genre).show()
+        GenreTracksScreen(genre, "Genres").show()
     end function
 
 	return instance

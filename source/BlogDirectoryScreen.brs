@@ -2,10 +2,15 @@ function BlogDirectoryScreen() as Object
 	
 	instance = {}
 	instance._blogs = BlogListAdapter()
-	instance._screen = createScreen("List")
+	instance._screen = createScreen("Poster")
+
+	instance._screen.setListStyle("arced-square")
+    instance._screen.setListDisplayMode("zoom-to-fill")
+	instance._screen.setBreadcrumbEnabled(true)
+	instance._screen.setBreadcrumbText("", "Blogs")
 	
 	instance.updateContentList = function()
-		m._screen.setContent(m._blogs.getContentList())
+		m._screen.setContentList(m._blogs.getContentList())
 	end function
 
 	instance.show = function()
@@ -23,7 +28,7 @@ function BlogDirectoryScreen() as Object
 
 	instance.onListItemSelected = function(msg as Object)
         blog = m._blogs.getContent(msg.getIndex())
-        BlogTracksScreen(blog).show()
+        BlogTracksScreen(blog, "Blogs").show()
     end function
 
 	return instance

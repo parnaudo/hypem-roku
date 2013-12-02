@@ -1,3 +1,3 @@
-function GenreTracksScreen(genre as Object) as Object
-	return TrackListScreen(genre.source, { count: 40 })
+function GenreTracksScreen(genre as Object, parent="" as String) as Object
+	return TrackListScreen(genre.source, { count: 40 }, genre.title, parent)
 end function

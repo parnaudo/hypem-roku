@@ -2,10 +2,15 @@ function MyFriendsScreen() as Object
 	
 	instance = {}
 	instance._friends = UserFriendListAdapter(UserSession().getUserName())
-	instance._screen = createScreen("List")
+	instance._screen = createScreen("Poster")
+	
+	instance._screen.setListStyle("arced-square")
+    instance._screen.setListDisplayMode("zoom-to-fill")
+	instance._screen.setBreadcrumbEnabled(true)
+	instance._screen.setBreadcrumbText("", "My Friends")
 
 	instance.updateContentList = function()
-		m._screen.setContent(m._friends.getContentList())
+		m._screen.setContentList(m._friends.getContentList())
 	end function
 
 	instance.show = function()
@@ -23,7 +28,7 @@ function MyFriendsScreen() as Object
 
 	instance.onListItemSelected = function(msg as Object)
         user = m._friends.getContent(msg.getIndex())
-        UserTracksScreen(user).show()
+        UserTracksScreen(user, "My Friends").show()
     end function
 
 	return instance

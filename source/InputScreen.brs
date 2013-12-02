@@ -1,13 +1,14 @@
-sub InputScreen(prompt as String, secure=false as Boolean) as Object
+sub InputScreen(title as String, prompt as String, secure=false as Boolean) as Object
     
     instance = {}
     instance._screen  = createScreen("Keyboard")
     
+    instance._screen.addButton(1, "Continue")
+    instance._screen.addButton(2, "Cancel")
+    
+    instance._screen.setTitle(title)
+    instance._screen.setSecureText(secure)
     instance._screen.setDisplayText(prompt)
-    instance._screen.AddButton(1, "Continue")
-    instance._screen.AddButton(2, "Cancel")
-
-    instance._screen.SetSecureText(secure)
 
     instance.show = function()
         m._screen.show()

@@ -1,6 +1,6 @@
-function FilteredTrackListScreen(source as String, lists as Object, modes as Object) as Object
+function FilteredTrackListScreen(source as String, lists as Object, modes as Object, name as String, parent="" as String) as Object
 
-    instance = TrackListScreen(source, { mode: modes[0] })
+    instance = TrackListScreen(source, { mode: modes[0] }, name, parent)
     instance._modes = modes
     instance._screen.setListNames(lists)
     instance.tlOnMessage = instance.onMessage

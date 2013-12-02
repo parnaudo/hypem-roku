@@ -3,6 +3,7 @@ function GenreContent(json as Object) as Object
 	return {
 		source: "/tags/" + urlencoder.escape(json.tag_name) + "/tracks",
 		title: json.tag_name,
+		shortDescriptionLine1: json.tag_name,
 		contentType: "audio"
 	}
 end function

@@ -1,4 +1,4 @@
-function TrackScreen(index as Integer, tracks as Object) as Object
+function TrackScreen(index as Integer, tracks as Object, parent="" as String) as Object
 
     instance          = {}
     instance._index   = index
@@ -9,6 +9,8 @@ function TrackScreen(index as Integer, tracks as Object) as Object
 
     instance._screen.setDisplayMode("zoom-to-fill")
     instance._screen.setProgressIndicatorEnabled(true)
+    instance._screen.setBreadcrumbEnabled(true)
+    instance._screen.setBreadcrumbText(parent, "Now Playing")
     instance._screen.allowNavLeft(index > 0)
     instance._screen.allowNavRewind(true)
     instance._screen.allowNavFastForward(true)
@@ -195,7 +197,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     end function
 
     instance.showArtistTracks = function() as Boolean
-        ArtistTracksScreen(m.getContent().artist).show()
+        ArtistTracksScreen(m.getContent().artist, "Now Playing").show()
         return true
     end function
 

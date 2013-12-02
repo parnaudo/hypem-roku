@@ -1,6 +1,6 @@
-function SortedTrackListScreen(source as String, lists as Object, sorts as Object) as Object
+function QueryTrackListScreen(source as String, query as String, lists as Object, sorts as Object, parent="" as String) as Object
 
-    instance = TrackListScreen(source, { sort: sorts[0] })
+    instance = TrackListScreen(source, { q: query, sort: sorts[0] }, "Results For '"+query+"'", parent)
     instance._sorts = sorts
     instance._screen.setListNames(lists)
     instance.tlOnMessage = instance.onMessage

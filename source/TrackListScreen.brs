@@ -1,10 +1,14 @@
-function TrackListScreen(source as String, params as Object) as Object
+function TrackListScreen(source as String, params as Object, name as String, parent="" as String) as Object
 
     instance = {}
     instance._tracks = TrackListAdapter(source, params)
     instance._screen = createScreen("Poster")
+    instance._name   = name
+    
     instance._screen.setListStyle("arced-square")
     instance._screen.setListDisplayMode("zoom-to-fill")
+    instance._screen.setBreadcrumbEnabled(true)
+    instance._screen.setBreadcrumbText(parent, name)
 	
     instance.show = function()
         m._screen.show()
@@ -44,7 +48,7 @@ function TrackListScreen(source as String, params as Object) as Object
     end function
 
     instance.onListItemSelected = function(msg as Object) as Boolean
-        index = TrackScreen(msg.getIndex(), m._tracks).show()
+        index = TrackScreen(msg.getIndex(), m._tracks, m._name).show()
         m.updateContentListUntil(index)
         m._screen.setFocusedListItem(index)
         return true

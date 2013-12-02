@@ -1,18 +1,21 @@
-sub SearchScreen() as Object
+sub SearchScreen(parent="" as String) as Object
     
-    instance = {}
+    instance = InputScreen("Search Tracks", "Enter your search below")
+    instance._parent = parent
 
     instance.search = function(query as String)
         lists = ["Newest", "Most Favorites", "Most Reblogs"]
         sorts = ["date", "loved", "posted"]
-        SortedTrackListScreen("/tracks", lists, sorts).show()
+        QueryTrackListScreen("/tracks", query, lists, sorts, m._parent).show()
     end function
 
+    instance.ishow = instance.show
     instance.show = function()
-        query = InputScreen("Enter your search below").show()
-        if query <> invalid then
+        while true
+            query = m.ishow()
+            if query = invalid return false
             m.search(query)
-        endif
+        end while
     end function
 
     return instance

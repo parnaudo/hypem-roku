@@ -39,7 +39,7 @@ sub NavigationScreen() as Object
             title: "Popular",
             screen: PopularTracksScreen
         },{
-            title: "Blog Directory",
+            title: "Blogs",
             screen: BlogDirectoryScreen
         },{
             title: "Genres",
