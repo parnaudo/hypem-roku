@@ -1,9 +1,9 @@
 function TrackContent(json as Object) as Object
 	releaseDate = createObject("roDateTime")
 	releaseDate.fromSeconds(json.dateposted)
-	categories = [json.sitename]
+	if json.loved_count = 1 then categories = " User"
 	if json.via_user <> invalid then
-		categories.push("Loved By " + json.via_user)
+		categories = json.via_user + " loves this track"
 	endif
 	return {
 		id: json.itemid,
@@ -23,6 +23,7 @@ function TrackContent(json as Object) as Object
 		artist: json.artist,
 		actors: json.artist,
 		album: json.sitename,
+		rating: ucase(json.sitename),
 		categories: categories,
 		postUrl: json.posturl,
 		favorite: (json.ts_loved_me <> invalid)
