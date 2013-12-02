@@ -2,6 +2,7 @@ function TrackContent(json as Object) as Object
 	releaseDate = createObject("roDateTime")
 	releaseDate.fromSeconds(json.dateposted)
 	return {
+		id: json.itemid,
 		title: json.title,
 		description: json.description,
 		shortDescriptionLine1: json.title,
@@ -16,6 +17,7 @@ function TrackContent(json as Object) as Object
 		releaseDate: releaseDate.asDateString("short-date"),
 		artist: json.artist,
 		actors: json.artist,
-		album: json.sitename
+		album: json.sitename,
+		favorite: (json.ts_loved_me <> invalid)
 	}
 end function

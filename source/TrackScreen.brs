@@ -14,8 +14,12 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     instance._screen.allowNavFastForward(true)
     instance._audio.setMessagePort(instance._port)
 
+    instance.getContent = function() as Object
+        return m._tracks.getContent(m._index)
+    end function
+
     instance.syncContent = function()
-        content = m._tracks.getContent(m._index)
+        content = m.getContent()    
         if content = invalid return invalid
         m._screen.setContent(content)
         m._totalTime = content.length
@@ -30,8 +34,8 @@ function TrackScreen(index as Integer, tracks as Object) as Object
         return content
     end function
 
-    instance.setPlayState = function(state as Integer)
-        m._audio.setPlayState(state)
+    instance.updateButtons = function()
+    state = m.playState
         m._screen.clearButtons()
         if (state = m._audio.STATE_PLAY) then
             m._screen.addButton(1, "Pause")
@@ -41,7 +45,19 @@ function TrackScreen(index as Integer, tracks as Object) as Object
             m._screen.addButton(2, "Stop")
         else
             m._screen.addButton(1, "Play")
+            m._screen.addButton(2, "Return")
         endif
+        content = m.getContent()
+        if content.favorite then
+            m._screen.addButton(3, "Marked as Favorite")
+        else
+            m._screen.addButton(3, "Mark as Favorite")
+        endif
+    end function
+
+    instance.setPlayState = function(state as Integer)
+        m._audio.setPlayState(state)
+        m.updateButtons()
     end function
 
     instance.show = function()
@@ -86,9 +102,10 @@ function TrackScreen(index as Integer, tracks as Object) as Object
         m.setPlayState(m._audio.STATE_PAUSE)
     end function
 
-    instance.stop = function()
+    instance.stop = function() as Boolean
         m._elapsedTime = 0
         m.setPlayState(m._audio.STATE_STOP)
+        return false
     end function
 
     instance.next = function()
@@ -115,17 +132,54 @@ function TrackScreen(index as Integer, tracks as Object) as Object
         m.play()
     end function
 
-    instance.onButtonPressed = function(msg as Object) as Boolean
-        if msg.getIndex() = 1 then
-            if m._audio.playState = m._audio.STATE_PLAY then
-                m.pause()
-            else
-                m.play()
-            endif
-            return true
+    instance.toggleFavorite = function() as Boolean
+        client = ApiClient()
+        content = m.getContent()
+        params  = {}
+        params.type = "item"
+        params.val  = content.id
+        params.playlist_section = m._tracks.getSource()
+        
+        ' optimistic success
+        content.favorite = not content.favorite
+        m.updateButtons()
+
+        response = client.post("/me/favorites", params)
+        if response = invalid then
+            ' rollback on error
+            ErrorDialog("Error", "Unable to favorite this track").show()
+            content.favorite = not content.favorite
+            m.updateButtons()
         else
-            m.stop()
-            return false
+            ' sync up if we're out of sync
+            response = response.getString()
+            if response = "1" and not content.favorite or response = "0" and content.favorite then
+                content.favorite = not content.favorite
+                m.updateButtons()
+            end if
+        endif
+
+        return true
+
+    end function
+
+    instance.togglePlay = function() as Boolean
+        if m._audio.playState = m._audio.STATE_PLAY then
+            m.pause()
+        else
+            m.play()
+        endif
+        return true
+    end function
+
+    instance.onButtonPressed = function(msg as Object) as Boolean
+        index = msg.getIndex()
+        if index = 1 then
+            return m.togglePlay()
+        elseif index = 2 then
+            return m.stop()
+        else
+            return m.toggleFavorite()
         endif
     end function
 

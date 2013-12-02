@@ -47,23 +47,19 @@ function ApiClient() as Object
 		end function
 
 		getJson: function(path as String, params as Object) as Object
-			params = m.setAuthParams(params)
-			url = m.getUrl(path, params)
-			transport = m.getTransport()
-			transport.setUrl(url)
-			print "GET ";url
-			started = transport.asyncGetToString()
-			while started
-				msg = wait(0, transport.getMessagePort())
-				if msg.getInt() = 1 then
-					return m.onTransferComplete(msg)
-				endif
-			end while
-			return m.onTransferFailed()
+			msg = m.get(path, params)
+			if msg = invalid return m.onJsonFailed()
+			return m.onJsonComplete(msg)
 		end function
 
 		postJson: function(path as String, params as Object) as Object
-			url       = m.getUrl(path, invalid)
+			msg = m.post(path, params)
+			if msg = invalid return m.onJsonFailed()
+			return m.onJsonComplete(msg)
+		end function
+
+		post: function(path as String, params as Object) as Object
+			url       = m.getUrl(path, m.setAuthParams({}))
 			transport = m.getTransport()
 			params    = m.setAuthParams(params)
 			request   = escapeQuery(transport, params)
@@ -73,18 +69,31 @@ function ApiClient() as Object
 			while started
 				msg = wait(0, transport.getMessagePort())
 				if msg.getInt() = 1 then
-					return m.onTransferComplete(msg)
+					return msg
 				endif
 			end while
-			return m.onTransferFailed()
+			return invalid
 		end function
 
-		onTransferComplete: function(msg as Object) as Object
-			
-			response = msg.getString()
-			'print " > ";response
+		get: function(path as String, params as Object) as Object
+			params = m.setAuthParams(params)
+			url = m.getUrl(path, params)
+			transport = m.getTransport()
+			transport.setUrl(url)
+			print "GET ";url
+			started = transport.asyncGetToString()
+			while started
+				msg = wait(0, transport.getMessagePort())
+				if msg.getInt() = 1 then
+					return msg
+				endif
+			end while
+			return invalid
+		end function
 
-			data = parseJson(response)
+		onJsonComplete: function(msg as Object) as Object
+			
+			data = parseJson(msg.getString())
 			if type(data) = "roAssociativeArray" return data
 
 			code = msg.getResponseCode()
@@ -103,6 +112,14 @@ function ApiClient() as Object
 				data: data
 			}
 
+		end function
+
+		onJsonFailed: function() as Object
+			return {
+				status: "error",
+				error_msg: "Unable to connect to service",
+				data: []
+			}
 		end function
 
 	}
