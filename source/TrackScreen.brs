@@ -35,7 +35,7 @@ function TrackScreen(index as Integer, tracks as Object) as Object
     end function
 
     instance.updateButtons = function()
-    state = m.playState
+        state = m._audio.playState
         m._screen.clearButtons()
         if (state = m._audio.STATE_PLAY) then
             m._screen.addButton(1, "Pause")
@@ -49,10 +49,12 @@ function TrackScreen(index as Integer, tracks as Object) as Object
         endif
         content = m.getContent()
         if content.favorite then
-            m._screen.addButton(3, "Marked as Favorite")
+            m._screen.addButton(3, "Track Loved!")
         else
-            m._screen.addButton(3, "Mark as Favorite")
+            m._screen.addButton(3, "Love This Track")
         endif
+        m._screen.addButton(4, "More By Artist")
+        m._screen.addButton(5, "Read Full Description")
     end function
 
     instance.setPlayState = function(state as Integer)
@@ -178,9 +180,23 @@ function TrackScreen(index as Integer, tracks as Object) as Object
             return m.togglePlay()
         elseif index = 2 then
             return m.stop()
-        else
+        elseif index = 3 then
             return m.toggleFavorite()
+        elseif index = 4 then
+            return m.showArtistTracks()
+        else
+            return m.showFullDescription()
         endif
+    end function
+
+    instance.showFullDescription = function() as Boolean
+        FullDescriptionScreen(m.getContent()).show()
+        return true
+    end function
+
+    instance.showArtistTracks = function() as Boolean
+        ArtistTracksScreen(m.getContent().artist).show()
+        return true
     end function
 
     instance.onRemoteKeyPressed = function(msg as Object)

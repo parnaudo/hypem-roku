@@ -1,3 +1,15 @@
+function truncateText(text as String, max=200 as Integer, suffix="..." as String) as String
+	max = max - len(suffix)
+	if len(text) <= max return text
+	text = left(text, max)
+	i = max
+	while i > 0
+		if instr(i, text, " ") <> 0 exit while
+		i = i - 1
+	end while
+	return left(text, i-1) + suffix
+end function
+
 function getTime() as Integer
 	return createObject("roDateTime").asSeconds()
 end function

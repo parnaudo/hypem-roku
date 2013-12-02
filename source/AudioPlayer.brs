@@ -96,7 +96,9 @@ function AudioPlayer() as Object
 	instance.getTimeTotal = function() as Integer
 		if m._tracks = invalid return 0
 		if m._index < 0 return 0
-		return m._tracks.getContent(m._index).length
+		content = m._tracks.getContent(m._index)
+		if content = invalid return 0
+		return content.length
 	end function
 
 	instance.setMessagePort = function(port as Object)
