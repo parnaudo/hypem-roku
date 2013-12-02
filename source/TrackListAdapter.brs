@@ -9,6 +9,12 @@ function TrackListAdapter(source as String, params as Object) as Object
 		m.clearContentList()
 	end function
 
+	instance.setSort = function(sort as String)
+		if m._params.sort = sort return 0
+		m._params.sort = sort
+		m.clearContentList()
+	end function
+
 	return instance
 
 end function

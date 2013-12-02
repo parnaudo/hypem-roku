@@ -30,6 +30,9 @@ sub NavigationScreen() as Object
         endif
 
         m._content.append([{
+            title: "Search",
+            screen: SearchScreen
+        },{
             title: "Latest",
             screen: LatestTracksScreen
         },{

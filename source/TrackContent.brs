@@ -1,9 +1,13 @@
 function TrackContent(json as Object) as Object
 	releaseDate = createObject("roDateTime")
 	releaseDate.fromSeconds(json.dateposted)
-	if json.loved_count = 1 then categories = " User"
+	categories = invalid
 	if json.via_user <> invalid then
 		categories = json.via_user + " loves this track"
+	else
+		categories = " Users"
+		if json.loved_count = 1 then categories = " User"
+		categories = "Loved By " + json.loved_count.tostr() + categories
 	endif
 	return {
 		id: json.itemid,
